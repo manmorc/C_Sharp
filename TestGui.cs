@@ -33,7 +33,7 @@ public class TestGui : MonoBehaviour
 
     public bool checkQuestion(int enteredIndex, int rightIndex)
     {
-        currentQuestion++
+        currentQuestion++;
         if (enteredIndex == rightIndex)
         {
             successAnswers++;
