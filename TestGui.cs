@@ -8,21 +8,21 @@ public class TestGui : MonoBehaviour
     public string startText = "Отвечайте на вопросы выбирая правильный ответ";
     public string endText = "Поздравляю, вы прошли тест!";
     public int successAnswers;
-    public int currentQuestion = 0;
+    public int currentQuestion;
 
-    public object[] questions = new[]
+    public Question[] questions = new[]
     {
-        new {
+        new Question {
             Text = "Cколько лет Земле?",
             Variants = new string[] {"4,54 миллиардов", "6 тысяч"}, 
             RightIndex = 0
         },
-        new {
+        new Question {
             Text = "Земля плоская?",
             Variants = new string[] {"Да", "Нет"},
-            RightIndex = 0
+            RightIndex = 1
         },
-        new {
+        new Question {
             Text = "Какой настоящий цвет неба?",
             Variants = new string[] {"Голубое", "Фиолетовое"},
             RightIndex = 1
@@ -47,26 +47,43 @@ public class TestGui : MonoBehaviour
     {
         
         Debug.Log(questions.Length);
-        for (; currentQuestion < questions.Length;)
+
+        DrawQuestion();
+          
+
+        
+    }
+    
+    private void DrawQuestion()
+    {
+        GUI.Label(new Rect(10, 10, 200, 80), questions[currentQuestion].Text);
+        GUI.Label(new Rect(10, 40, 200, 80), successAnswers.ToString());
+
+        Console.WriteLine(questions[currentQuestion]);
+        if (GUI.Button(new Rect(10, 100, 200, 100), questions[currentQuestion].Variants[0]))
         {
-            
-            //GUI.Label(new Rect(10, 10, 200, 80), questions[currentQuestion].Text);
-            GUI.Label(new Rect(10, 40, 200, 80), successAnswers.ToString());
-            
-            Console.WriteLine(questions[currentQuestion]);
-            if (GUI.Button(new Rect(10, 100, 100, 100), "Button One"))
-            {
-                //checkQuestion(0, questions[currentQuestion].RightIndex);
-            }
-            else if (GUI.Button(new Rect(150, 100, 100, 100), "Button Two"))
-            {
-                //checkQuestion(0, questions[currentQuestion].RightIndex);
-            }
+            checkQuestion(0, questions[currentQuestion].RightIndex);
+        }
+        else if (GUI.Button(new Rect(250, 100, 200, 100), questions[currentQuestion].Variants[1]))
+        {
+            checkQuestion(1, questions[currentQuestion].RightIndex);
         }
 
-        if (currentQuestion == questions.Length)
+        if (currentQuestion >= questions.Length)
         {
             GUI.Label(new Rect(10, 40, 200, 80), endText);
         }
-    }   
+
+        GUI.Label(new Rect(10, 240, 200, 80), currentQuestion.ToString());
+        GUI.Label(new Rect(110, 240, 200, 80), questions.Length.ToString());
+
+    }
+
+}
+
+public class Question
+{
+    public string Text;
+    public string[] Variants;
+    public int RightIndex;
 }
